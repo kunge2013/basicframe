@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 4.4.2.v201410272105 Build &lt;4.4.2.v20150217-1805></property>
+    <property name="units">in</property>
+    <method name="initialize"><![CDATA[spring=reportContext.getAppContext().get("spring");
+var humanService=spring.getBean("humanService");
+]]></method>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <parameters>
+        <scalar-parameter name="id" id="16">
+            <property name="valueType">static</property>
+            <property name="dataType">integer</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+    </parameters>
+    <data-sources>
+        <script-data-source name="Data Source" id="14">
+            <list-property name="userProperties">
+                <structure>
+                    <property name="name">script_type</property>
+                    <property name="type">string</property>
+                    <property name="default">me.prettyprint.hector</property>
+                </structure>
+            </list-property>
+        </script-data-source>
+    </data-sources>
+    <data-sets>
+        <script-data-set name="ManPower" id="15">
+            <list-property name="resultSetHints">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">post</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">standNum</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">origNum</property>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">post</property>
+                    <text-property name="displayName">岗位</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">standNum</property>
+                    <text-property name="displayName">編制人数</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">origNum</property>
+                    <text-property name="displayName">現有人數</text-property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">post</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">standNum</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">origNum</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">Data Source</property>
+            <method name="open"><![CDATA[importPackage(Packages.java.util)
+importPackage(Packages.java.lang)
+importPackage(Packages.com.qing.time.web.hr.human.entity)
+var humanService=spring.getBean("humanService");
+//var data = humanService.load(Manpower.class,Long.valueOf(params["id"]));
+//var data = humanService.findManpowerByProcessId("1");
+var data = humanService.load("com.qing.time.web.hr.human.entity.Manpower",Long.valueOf(params["id"]));
+listdata = new ArrayList();
+if (data == null) {
+	data = new Manpower();
+}
+listdata.add(data);
+count=0;]]></method>
+            <method name="fetch"><![CDATA[
+if(listdata.size()>count){
+	objdata=listdata.get(count);
+	row.post=objdata.getPost();
+	row.standNum=objdata.getStandNum();
+	row.origNum=objdata.getOrigNum();
+	count++;
+	return true;
+}
+return false;]]></method>
+        </script-data-set>
+    </data-sets>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <table id="33">
+            <property name="dataSet">ManPower</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">post</property>
+                    <text-property name="displayName">岗位</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["post"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">standNum</property>
+                    <text-property name="displayName">編制人数</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["standNum"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">origNum</property>
+                    <text-property name="displayName">現有人數</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["origNum"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <column id="52"/>
+            <column id="53"/>
+            <column id="54"/>
+            <header>
+                <row id="34">
+                    <cell id="35">
+                        <label id="36">
+                            <text-property name="text">崗位	</text-property>
+                        </label>
+                    </cell>
+                    <cell id="37">
+                        <label id="38">
+                            <text-property name="text">人數</text-property>
+                        </label>
+                    </cell>
+                    <cell id="39">
+                        <label id="40">
+                            <text-property name="text">先有人數</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="41">
+                    <cell id="42">
+                        <data id="55">
+                            <property name="dataSet">ManPower</property>
+                            <list-property name="boundDataColumns">
+                                <structure>
+                                    <property name="name">post</property>
+                                    <text-property name="displayName">岗位</text-property>
+                                    <expression name="expression" type="javascript">dataSetRow["post"]</expression>
+                                    <property name="dataType">string</property>
+                                </structure>
+                                <structure>
+                                    <property name="name">standNum</property>
+                                    <text-property name="displayName">編制人数</text-property>
+                                    <expression name="expression" type="javascript">dataSetRow["standNum"]</expression>
+                                    <property name="dataType">string</property>
+                                </structure>
+                                <structure>
+                                    <property name="name">origNum</property>
+                                    <text-property name="displayName">現有人數</text-property>
+                                    <expression name="expression" type="javascript">dataSetRow["origNum"]</expression>
+                                    <property name="dataType">string</property>
+                                </structure>
+                            </list-property>
+                            <property name="resultSetColumn">post</property>
+                        </data>
+                    </cell>
+                    <cell id="44">
+                        <data id="45">
+                            <property name="dataSet">ManPower</property>
+                            <list-property name="boundDataColumns">
+                                <structure>
+                                    <property name="name">post</property>
+                                    <expression name="expression" type="javascript">dataSetRow["post"]</expression>
+                                    <property name="dataType">string</property>
+                                </structure>
+                                <structure>
+                                    <property name="name">standNum</property>
+                                    <expression name="expression" type="javascript">dataSetRow["standNum"]</expression>
+                                    <property name="dataType">string</property>
+                                </structure>
+                                <structure>
+                                    <property name="name">origNum</property>
+                                    <text-property name="displayName">現有人數</text-property>
+                                    <expression name="expression" type="javascript">dataSetRow["origNum"]</expression>
+                                    <property name="dataType">string</property>
+                                </structure>
+                            </list-property>
+                            <property name="resultSetColumn">standNum</property>
+                        </data>
+                    </cell>
+                    <cell id="46">
+                        <data id="56">
+                            <property name="dataSet">ManPower</property>
+                            <list-property name="boundDataColumns">
+                                <structure>
+                                    <property name="name">post</property>
+                                    <text-property name="displayName">岗位</text-property>
+                                    <expression name="expression" type="javascript">dataSetRow["post"]</expression>
+                                    <property name="dataType">string</property>
+                                </structure>
+                                <structure>
+                                    <property name="name">standNum</property>
+                                    <text-property name="displayName">編制人数</text-property>
+                                    <expression name="expression" type="javascript">dataSetRow["standNum"]</expression>
+                                    <property name="dataType">string</property>
+                                </structure>
+                                <structure>
+                                    <property name="name">origNum</property>
+                                    <text-property name="displayName">現有人數</text-property>
+                                    <expression name="expression" type="javascript">dataSetRow["origNum"]</expression>
+                                    <property name="dataType">string</property>
+                                </structure>
+                            </list-property>
+                            <property name="resultSetColumn">origNum</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="48">
+                    <cell id="49"/>
+                    <cell id="50"/>
+                    <cell id="51"/>
+                </row>
+            </footer>
+        </table>
+    </body>
+</report>

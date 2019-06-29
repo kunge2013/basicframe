@@ -1,0 +1,17 @@
+spring:
+  aop:
+    auto: true
+    proxy-target-class: true
+  datasource:
+    tomcat:
+      validation-query: select 1
+    type: com.alibaba.druid.pool.DruidDataSource
+    validationQuery: select 1
+    url: jdbc:mysql://localhost:3306/mybatis?characterEncoding=utf-8&useSSL=true&autoReconnect=true
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
