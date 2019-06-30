@@ -12,8 +12,8 @@ import java.util.logging.Level;
 
 @Configuration
 public class BirtConfiguration {
-	@Value("${birt.log.location}")
-	String logLocation;
+	//@Value("${birt.log.location}")
+	String logLocation = "d:/log/";
 
 	@Bean
 	protected BirtEngineFactory engine(){ 
